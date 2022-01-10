@@ -33,6 +33,7 @@ jobs:
             - name: build pdf
               run: |
                   gitbook pdf ./
+                  cp book.pdf ./_book/
             - name: push_to_pages
               run: |
                   cd ./_book
