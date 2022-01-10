@@ -23,9 +23,16 @@ jobs:
                   npm install gitbook-cli  -g
                   gitbook -v
                   gitbook install
+            - name: install ebook-convert
+              run: |
+                  sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+                  ebook-convert --version
             - name: build_gitbook
               run: |
                   gitbook build
+            - name: build pdf
+              run: |
+                  gitbook pdf ./
             - name: push_to_pages
               run: |
                   cd ./_book
@@ -34,4 +41,3 @@ jobs:
                   git config --local user.email "${GITHUB_ACTOR}@users.noreply.github.com"
                   git add *
                   git commit -m "Update by gitbook-action"
-                  git push --force  "https://${GITHUB_ACTOR}:${{ secrets.PERSONAL_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" master:gh-pages
